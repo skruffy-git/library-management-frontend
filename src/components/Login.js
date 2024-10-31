@@ -1,45 +1,48 @@
-import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { login } from '../services/authService';
-import { AuthContext } from '../context/AuthContext';
+// src/components/Login.js
+import React, { useState } from 'react';
+import { TextField, Button, Container, Typography } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login: loginUser } = useContext(AuthContext);
-    const history = useHistory();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            const userData = await login({ email, password });
-            loginUser(userData);
-            history.push('/dashboard'); // Redirect after login
-        } catch (error) {
-            console.error('Login failed:', error);
-            // Handle login error (e.g., show a message to the user)
-        }
+        // Simulate a login request
+        const userData = { email }; // Here you would normally handle user data
+        login(userData);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
-            <input 
-                type="email" 
-                placeholder="Email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                required 
-            />
-            <input 
-                type="password" 
-                placeholder="Password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                required 
-            />
-            <button type="submit">Login</button>
-        </form>
+        <Container maxWidth="xs">
+            <Typography variant="h5" component="h1" gutterBottom>
+                Login
+            </Typography>
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    label="Email"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                    label="Password"
+                    type="password"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button variant="contained" color="primary" type="submit" fullWidth>
+                    Login
+                </Button>
+            </form>
+        </Container>
     );
 };
 
