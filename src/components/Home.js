@@ -16,20 +16,6 @@ const Home = () => {
                 <Typography variant="h5" component="h2" gutterBottom>
                     Manage your library efficiently and easily.
                 </Typography>
-                <Button 
-                    variant="contained" 
-                    onClick={() => navigate('/login')} 
-                    sx={{ mt: 2 }}
-                >
-                    Login
-                </Button>
-                <Button 
-                    variant="outlined" 
-                    onClick={() => navigate('/register')} 
-                    sx={{ mt: 2, ml: 2 }}
-                >
-                    Register
-                </Button>
             </Box>
         </Container>
     );
