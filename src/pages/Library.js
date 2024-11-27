@@ -54,7 +54,7 @@ const Library = () => {
                     onChange={(e) => setTitle(e.target.value)}
                     required
                     fullWidth
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2, backgroundColor: 'white' }}
                 />
                 <TextField
                     label="Author"
@@ -63,7 +63,7 @@ const Library = () => {
                     onChange={(e) => setAuthor(e.target.value)}
                     required
                     fullWidth
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2, backgroundColor: 'white' }}
                 />
                 <Button type="submit" variant="contained" color="primary">
                     Add Book
