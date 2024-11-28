@@ -1,7 +1,6 @@
-// src/pages/Library.js
 import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Typography, Box, List, ListItem, ListItemText, Divider } from '@mui/material';
 import axios from 'axios';
+import '../styles/library.css'; // Import custom CSS for styling
 
 const Library = () => {
     const [title, setTitle] = useState('');
@@ -22,7 +21,7 @@ const Library = () => {
             setBooks(response.data);
             setLoading(false);
         } catch (error) {
-            console.error("Error fetching books:", error);
+            console.error('Error fetching books:', error);
             setLoading(false);
         }
     };
@@ -36,59 +35,62 @@ const Library = () => {
             setTitle('');
             setAuthor('');
         } catch (error) {
-            console.error("Error adding book:", error);
+            console.error('Error adding book:', error);
         }
     };
 
     return (
-        <Container>
-            <Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
-                Library
-            </Typography>
+        <div className="library-container">
+            {/* Page Title */}
+            <h1 className="page-title">Library Management</h1>
+
             {/* Add Book Form */}
-            <Box component="form" onSubmit={handleAddBook} sx={{ mb: 4 }}>
-                <TextField
-                    label="Book Title"
-                    variant="outlined"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    fullWidth
-                    sx={{ mb: 2, backgroundColor: 'white' }}
-                />
-                <TextField
-                    label="Author"
-                    variant="outlined"
-                    value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
-                    required
-                    fullWidth
-                    sx={{ mb: 2, backgroundColor: 'white' }}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Add Book
-                </Button>
-            </Box>
-            
-            {/* List of Books */}
-            <Typography variant="h5" sx={{ mb: 2 }}>
-                Book List
-            </Typography>
-            {loading ? (
-                <Typography>Loading...</Typography>
-            ) : (
-                <List>
-                    {books.map((book) => (
-                        <React.Fragment key={book._id}>
-                            <ListItem>
-                                <ListItemText primary={book.title} secondary={book.author} />
-                            </ListItem>
-                            <Divider />
-                        </React.Fragment>
-                    ))}
-                </List>
-            )}
-        </Container>
+            <div className="form-container">
+                <h2 className="form-title">Add a New Book</h2>
+                <form onSubmit={handleAddBook} className="add-book-form">
+                    <input
+                        type="text"
+                        placeholder="Book Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                        className="form-input"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Author"
+                        value={author}
+                        onChange={(e) => setAuthor(e.target.value)}
+                        required
+                        className="form-input"
+                    />
+                    <button type="submit" className="add-book-btn">Add Book</button>
+                </form>
+            </div>
+
+            {/* Book List */}
+            <h2 className="book-list-title">Book List</h2>
+            <div className="book-list-container">
+                {loading ? (
+                    <div className="loading">
+                        <div className="spinner"></div>
+                        <p>Loading books...</p>
+                    </div>
+                ) : (
+                    <ul className="book-list">
+                        {books.map((book) => (
+                            <li key={book._id} className="book-item">
+                                <div className="book-text">
+                                    <strong>{book.title}</strong>
+                                    <p>Author: {book.author}</p>
+                                </div>
+                                <hr className="divider" />
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </div>
     );
 };
 

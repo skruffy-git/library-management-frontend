@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Snackbar, Alert } from '@mui/material'; // Updated import for Alert
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/register.css'; // Import custom CSS for styling
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -28,54 +28,49 @@ const Register = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
-                <Typography component="h1" variant="h5">
-                    Register
-                </Typography>
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Username"
+        <div className="register-container">
+            <div className="register-box">
+                <h2 className="register-title">Create an Account</h2>
+                <p className="register-subtitle">Sign up to manage your library efficiently</p>
+                <form onSubmit={handleSubmit} className="register-form">
+                    <input
+                        type="text"
+                        placeholder="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <TextField
-                        margin="normal"
                         required
-                        fullWidth
-                        label="Email"
+                        className="register-input"
+                    />
+                    <input
+                        type="email"
+                        placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        margin="normal"
                         required
-                        fullWidth
-                        label="Password"
+                        className="register-input"
+                    />
+                    <input
                         type="password"
+                        placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="register-input"
                     />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-                        Register
-                    </Button>
-                </Box>
-                {/* Snackbar for success or error messages */}
-                <Snackbar open={Boolean(success)} autoHideDuration={6000} onClose={() => setSuccess(false)}>
-                    <Alert onClose={() => setSuccess(false)} severity="success" sx={{ width: '100%' }}>
+                    <button type="submit" className="register-button">Register</button>
+                </form>
+                {success && (
+                    <div className="alert success">
                         Registration successful! Redirecting to login...
-                    </Alert>
-                </Snackbar>
-                <Snackbar open={Boolean(error)} autoHideDuration={6000} onClose={() => setError('')}>
-                    <Alert onClose={() => setError('')} severity="error" sx={{ width: '100%' }}>
+                    </div>
+                )}
+                {error && (
+                    <div className="alert error">
                         {error}
-                    </Alert>
-                </Snackbar>
-            </Box>
-        </Container>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 
