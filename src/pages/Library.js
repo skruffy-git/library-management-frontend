@@ -18,7 +18,7 @@ const Library = () => {
     const fetchBooks = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:5000/api/books'); // Adjust the endpoint as necessary
+            const response = await axios.get('http://localhost:5000/api/books');
             setBooks(response.data);
             setLoading(false);
         } catch (error) {
@@ -32,11 +32,21 @@ const Library = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/books', { title, author });
-            setBooks([...books, response.data]); // Add new book to the existing list
+            setBooks([...books, response.data]);
             setTitle('');
             setAuthor('');
         } catch (error) {
             console.error("Error adding book:", error);
+        }
+    };
+
+    // Handle delete book
+    const handleDeleteBook = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/books/${id}`);
+            setBooks(books.filter(book => book._id !== id)); // Remove deleted book from state
+        } catch (error) {
+            console.error("Error deleting book:", error);
         }
     };
 
@@ -82,6 +92,13 @@ const Library = () => {
                         <React.Fragment key={book._id}>
                             <ListItem>
                                 <ListItemText primary={book.title} secondary={book.author} />
+                                <Button 
+                                    variant="outlined" 
+                                    color="secondary" 
+                                    onClick={() => handleDeleteBook(book._id)}
+                                >
+                                    Delete
+                                </Button>
                             </ListItem>
                             <Divider />
                         </React.Fragment>
