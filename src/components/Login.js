@@ -1,9 +1,7 @@
-// src/components/Login.js
-
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/login.css'; // Import CSS file for consistent styling
 
 const Login = () => {
     const [identifier, setIdentifier] = useState(''); // Use a single state for username/email
@@ -28,45 +26,41 @@ const Login = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
-                <Typography component="h1" variant="h5">
-                    Login
-                </Typography>
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Username or Email"
+        <div className="login-container">
+            <div className="login-box">
+                <h2 className="login-title">Welcome Back!</h2>
+                <p className="login-subtitle">Log in to access your library management system</p>
+                <form onSubmit={handleSubmit} className="login-form">
+                    <input
+                        type="text"
+                        placeholder="Username or Email"
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
-                    />
-                    <TextField
-                        margin="normal"
                         required
-                        fullWidth
-                        label="Password"
+                        className="login-input"
+                    />
+                    <input
                         type="password"
+                        placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="login-input"
                     />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-                        Login
-                    </Button>
-                </Box>
-                <Snackbar open={Boolean(success)} autoHideDuration={6000} onClose={() => setSuccess(false)}>
-                    <Alert onClose={() => setSuccess(false)} severity="success" sx={{ width: '100%' }}>
+                    <button type="submit" className="login-button">Login</button>
+                </form>
+                {success && (
+                    <div className="alert success">
                         Login successful! Redirecting to home...
-                    </Alert>
-                </Snackbar>
-                <Snackbar open={Boolean(error)} autoHideDuration={6000} onClose={() => setError('')}>
-                    <Alert onClose={() => setError('')} severity="error" sx={{ width: '100%' }}>
+                    </div>
+                )}
+                {error && (
+                    <div className="alert error">
                         {error}
-                    </Alert>
-                </Snackbar>
-            </Box>
-        </Container>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 
