@@ -12,4 +12,12 @@ export const addBook = async (bookData) => {
     return response.data;
 };
 
-// Add other CRUD functions (updateBook, deleteBook) as needed
+export const updateBook = async (bookId, updatedData) => {
+    const response = await axios.put(`${API_URL}${bookId}`, updatedData);
+    return response.data;
+};
+
+export const deleteBook = async (bookId) => {
+    const response = await axios.delete(`${API_URL}${bookId}`);
+    return response.data;
+};
