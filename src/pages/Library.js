@@ -1,4 +1,3 @@
-// src/pages/Library.js
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography, Box, List, ListItem, ListItemText, Divider } from '@mui/material';
 import axios from 'axios';
@@ -8,13 +7,12 @@ const Library = () => {
     const [author, setAuthor] = useState('');
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [editBookId, setEditBookId] = useState(null); // Track the book being edited
 
-    // Fetch books on component mount
     useEffect(() => {
         fetchBooks();
     }, []);
 
-    // Fetch all books from the server
     const fetchBooks = async () => {
         try {
             setLoading(true);
@@ -27,24 +25,37 @@ const Library = () => {
         }
     };
 
-    // Handle form submission to add a new book
-    const handleAddBook = async (e) => {
+    const handleAddOrUpdateBook = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await axios.post('http://localhost:5000/api/books', { title, author });
-            setBooks([...books, response.data]);
+            if (editBookId) {
+                // Update existing book
+                const response = await axios.put(`http://localhost:5000/api/books/${editBookId}`, { title, author });
+                setBooks(books.map((book) => (book._id === editBookId ? response.data : book)));
+                setEditBookId(null); // Reset edit mode
+            } else {
+                // Add new book
+                const response = await axios.post('http://localhost:5000/api/books', { title, author });
+                setBooks([...books, response.data]);
+            }
             setTitle('');
             setAuthor('');
         } catch (error) {
-            console.error("Error adding book:", error);
+            console.error("Error adding/updating book:", error);
         }
     };
 
-    // Handle delete book
-    const handleDeleteBook = async (id) => {
+    const handleEditClick = (book) => {
+        setEditBookId(book._id);
+        setTitle(book.title);
+        setAuthor(book.author);
+    };
+
+    const handleDeleteClick = async (id) => {
         try {
             await axios.delete(`http://localhost:5000/api/books/${id}`);
-            setBooks(books.filter(book => book._id !== id)); // Remove deleted book from state
+            setBooks(books.filter((book) => book._id !== id));
         } catch (error) {
             console.error("Error deleting book:", error);
         }
@@ -55,8 +66,7 @@ const Library = () => {
             <Typography variant="h4" sx={{ mt: 4, mb: 2 }}>
                 Library
             </Typography>
-            {/* Add Book Form */}
-            <Box component="form" onSubmit={handleAddBook} sx={{ mb: 4 }}>
+            <Box component="form" onSubmit={handleAddOrUpdateBook} sx={{ mb: 4 }}>
                 <TextField
                     label="Book Title"
                     variant="outlined"
@@ -76,11 +86,10 @@ const Library = () => {
                     sx={{ mb: 2 }}
                 />
                 <Button type="submit" variant="contained" color="primary">
-                    Add Book
+                    {editBookId ? 'Update Book' : 'Add Book'}
                 </Button>
             </Box>
-            
-            {/* List of Books */}
+
             <Typography variant="h5" sx={{ mb: 2 }}>
                 Book List
             </Typography>
@@ -92,10 +101,19 @@ const Library = () => {
                         <React.Fragment key={book._id}>
                             <ListItem>
                                 <ListItemText primary={book.title} secondary={book.author} />
-                                <Button 
-                                    variant="outlined" 
-                                    color="secondary" 
-                                    onClick={() => handleDeleteBook(book._id)}
+                                <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => handleEditClick(book)}
+                                    sx={{ ml: 2 }}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    onClick={() => handleDeleteClick(book._id)}
+                                    sx={{ ml: 2 }}
                                 >
                                     Delete
                                 </Button>
