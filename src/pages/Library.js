@@ -58,7 +58,6 @@ const Library = () => {
             setBooks(books.filter((book) => book._id !== id));
         } catch (error) {
             console.error("Error deleting book:", error);
-            console.error('Error adding book:', error);
         }
     };
 
@@ -70,7 +69,7 @@ const Library = () => {
             {/* Add Book Form */}
             <div className="form-container">
                 <h2 className="form-title">Add a New Book</h2>
-                <form onSubmit={handleAddBook} className="add-book-form">
+                <form onSubmit={handleAddOrUpdateBook} className="add-book-form">
                     <input
                         type="text"
                         placeholder="Book Title"
