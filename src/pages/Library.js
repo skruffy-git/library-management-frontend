@@ -86,7 +86,9 @@ const Library = () => {
                         required
                         className="form-input"
                     />
-                    <button type="submit" className="add-book-btn">Add Book</button>
+                    <button type="submit" className="add-book-btn">
+                        {editBookId ? 'Update Book' : 'Add Book'}
+                    </button>
                 </form>
             </div>
 
@@ -105,6 +107,22 @@ const Library = () => {
                                 <div className="book-text">
                                     <strong>{book.title}</strong>
                                     <p>Author: {book.author}</p>
+                                </div>
+                                
+                                {/* Edit and Delete Buttons */}
+                                <div className="button-group">
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => handleEditClick(book)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => handleDeleteClick(book._id)}
+                                    >
+                                        Delete
+                                    </button>
                                 </div>
                                 <hr className="divider" />
                             </li>
