@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Register from './components/Register';
 import Library from './pages/Library';
+import ReportingAnalytics from './pages/ReportingAnalytics';
 
 import { CssBaseline } from '@mui/material';
 
@@ -23,6 +24,7 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/library" element={<Library />} />
+                    <Route path="/reporting" element={<ReportingAnalytics />} />
                     
                     {/* Protected route for Dashboard */}
                     <Route

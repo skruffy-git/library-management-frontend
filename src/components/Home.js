@@ -41,6 +41,14 @@ const Home = () => {
                     <Typography className="feature-description">
                         Keep track of book inventory, add new titles, and update book details with ease.
                     </Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => navigate('/library')}
+                        sx={{ mt: 2 }}
+                    >
+                        Manage Books
+                    </Button>
                 </Box>
                 <Box className="feature-card" data-aos="fade-up" data-aos-delay="200">
                     <Typography variant="h6" className="feature-title">
@@ -57,6 +65,14 @@ const Home = () => {
                     <Typography className="feature-description">
                         Gain insights with detailed reports and analytics to optimize library performance.
                     </Typography>
+                    <Button
+                       variant="contained"
+                       color="primary"
+                       onClick={() => navigate('/reporting')}
+                       sx={{ mt: 2 }}
+                    >
+                       Reports & Analytics
+                    </Button>
                 </Box>
             </Box>
         </Container>
